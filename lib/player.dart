@@ -4,9 +4,11 @@ import 'assets/colors.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
+import 'song.dart';
 
 class AudioPlayerPage extends StatefulWidget {
-  const AudioPlayerPage({super.key});
+  final Song song;
+  const AudioPlayerPage({super.key, required this.song});
 
   @override
   State<AudioPlayerPage> createState() => _AudioPlayerPageState();
@@ -46,20 +48,20 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
   }
 
   Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+    audioPlayer.setReleaseMode(ReleaseMode.RELEASE);
     //String url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
     //audioPlayer.setUrl(url);
 
     // final result = await FilePicker.platform.pickFiles();
     final result = 'yolo';
-    
+
     if (result != null) {
       //final file = File(result.files.single.path!);
-      final path = '/data/user/0/com.example.audio_player/cache/file_picker/Nirvana - Smells Like Teen Spirit (Official Music Video)';
+      // final path = '/data/user/0/com.example.audio_player/cache/file_picker/Nirvana - Smells Like Teen Spirit (Official Music Video)';
+      final path =  widget.song.url;
       audioPlayer.setUrl(path, isLocal: true);
       //print(file.path);
     }
-
   }
 
   @override
@@ -76,6 +78,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      audioPlayer.stop();
                       Navigator.pop(context);
                     },
                     child: SizedBox(
@@ -108,10 +111,9 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                 width: 300,
                 height: 300,
                 child: MyButtonStyleRound(
-                  child: Icon(
-                    Icons.radio_button_checked,
-                    size: 128,
-                    color: TEXTCOLOR,
+                  child: Image(
+                    width: 50,
+                    image: AssetImage('assets/Ontwerp zonder titel.png'), // NOT WORKING HOW I WANT IT
                   ),
                 ),
               ),
