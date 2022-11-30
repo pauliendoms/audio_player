@@ -1,10 +1,12 @@
 import 'package:audio_player/player.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'button.dart';
 import 'song.dart';
 import 'package:file_picker/file_picker.dart';
 import 'assets/colors.dart';
 import 'dart:io';
+import 'dart:convert';
 
 class SongPage extends StatefulWidget {
   const SongPage({super.key});
@@ -15,6 +17,27 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage> {
   List<Song> songs = [];
+
+  @override void initState() {
+    super.initState();
+
+    setSonglist();
+  }
+
+  void setSonglist() async {
+    final prefs = await SharedPreferences.getInstance();
+    final song_strings = prefs.getStringList('songs');
+
+    if (song_strings == null) {
+      songs = [];
+    } else {
+      setState(() {
+        songs.addAll(song_strings.map((string) => Song.fromJson(jsonDecode(string))));
+      });
+      // songs.addAll(song_strings.map((string) => Song.fromJson(jsonDecode(string))));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,15 +88,25 @@ class _SongPageState extends State<SongPage> {
 }
 
 Future<List<Song>> getSongs(List<Song> songs) async {
-  print("Trying to find where I am");
+  final prefs =  await SharedPreferences.getInstance();
+  List<String>? song_strings = prefs.getStringList('songs');
+  // HELP!!
+  print(song_strings);
+
+  song_strings??= [];
+
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     allowMultiple: true,
     type: FileType.custom,
     allowedExtensions: ['mp3'],
   );
 
+  print(result);
   if (result != null) {
     songs.addAll(result.paths.map((path) => Song(path!.split("/").last, "Unknown", path)).toList());
+    song_strings.addAll(result.paths.map((path) => jsonEncode(Song(path!.split("/").last, "Unknown", path))).toList());
+
+    await prefs.setStringList('songs', song_strings);
   } else {
     // User canceled the picker
   }
@@ -82,6 +115,7 @@ Future<List<Song>> getSongs(List<Song> songs) async {
     Song("Smells Like Teen Spirit", "Nirvana",
         "https://www.youtube.com/watch?v=hTWKbfoikeg")
   ]; */
+  print(song_strings);
   print("here we are now");
   return songs;
 }
@@ -96,27 +130,30 @@ Padding buildSongButton(Song song, BuildContext context) {
           MaterialPageRoute(builder: (_) => AudioPlayerPage(song: song,)),
         );
       },
-      child: SizedBox(
-        width: 200,
-        height: 60,
-        child: MyButtonStyle(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Text(
-                  song.title,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 90, 100, 130),
+      child: Padding(
+        padding: const EdgeInsets.all(7.0),
+        child: SizedBox(
+          width: 200,
+          height: 60,
+          child: MyButtonStyle(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Text(
+                    song.title,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 90, 100, 130),
+                    ),
                   ),
-                ),
-                Text(
-                  song.author,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 90, 100, 130),
+                  Text(
+                    song.author,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 90, 100, 130),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

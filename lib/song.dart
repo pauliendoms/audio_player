@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Song {
   String title = "";
   String author = "";
@@ -8,4 +10,15 @@ class Song {
     this.author = a;
     this.url = u;
   }
+
+  Song.fromJson(Map<String, dynamic> json)
+    : title = json['title'],
+      author = json['author'],
+      url = json['url'];
+  
+  Map<String, dynamic> toJson() => {
+    'title' : title,
+    'author' : author,
+    'url' : url,
+  };
 }
