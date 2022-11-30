@@ -18,7 +18,8 @@ class SongPage extends StatefulWidget {
 class _SongPageState extends State<SongPage> {
   List<Song> songs = [];
 
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
 
     setSonglist();
@@ -32,7 +33,8 @@ class _SongPageState extends State<SongPage> {
       songs = [];
     } else {
       setState(() {
-        songs.addAll(song_strings.map((string) => Song.fromJson(jsonDecode(string))));
+        songs.addAll(
+            song_strings.map((string) => Song.fromJson(jsonDecode(string))));
       });
       // songs.addAll(song_strings.map((string) => Song.fromJson(jsonDecode(string))));
     }
@@ -75,7 +77,22 @@ class _SongPageState extends State<SongPage> {
                 child: ListView.builder(
                   itemCount: songs.length,
                   itemBuilder: (_, index) {
-                    return buildSongButton(songs[index], context);
+                    return Dismissible(
+                      background: Container(
+                        color: Colors.red,
+                      ),
+                      key: UniqueKey(),
+                      child: buildSongButton(songs[index], context),
+                      onDismissed: (direction) async {
+                        setState(() {
+                          songs.removeAt(index);
+                        });
+                        final list = songs.map((song) => jsonEncode(song)).toList();
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setStringList('songs', list);
+                      },
+                    );
+                    // return buildSongButton(songs[index], context);
                   },
                 ),
               ),
@@ -88,12 +105,12 @@ class _SongPageState extends State<SongPage> {
 }
 
 Future<List<Song>> getSongs(List<Song> songs) async {
-  final prefs =  await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
   List<String>? song_strings = prefs.getStringList('songs');
   // HELP!!
   print(song_strings);
 
-  song_strings??= [];
+  song_strings ??= [];
 
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     allowMultiple: true,
@@ -103,8 +120,12 @@ Future<List<Song>> getSongs(List<Song> songs) async {
 
   print(result);
   if (result != null) {
-    songs.addAll(result.paths.map((path) => Song(path!.split("/").last, "Unknown", path)).toList());
-    song_strings.addAll(result.paths.map((path) => jsonEncode(Song(path!.split("/").last, "Unknown", path))).toList());
+    songs.addAll(result.paths
+        .map((path) => Song(path!.split("/").last, "Unknown", path))
+        .toList());
+    song_strings.addAll(result.paths
+        .map((path) => jsonEncode(Song(path!.split("/").last, "Unknown", path)))
+        .toList());
 
     await prefs.setStringList('songs', song_strings);
   } else {
@@ -127,7 +148,10 @@ Padding buildSongButton(Song song, BuildContext context) {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => AudioPlayerPage(song: song,)),
+          MaterialPageRoute(
+              builder: (_) => AudioPlayerPage(
+                    song: song,
+                  )),
         );
       },
       child: Padding(
