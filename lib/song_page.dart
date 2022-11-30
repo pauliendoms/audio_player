@@ -78,16 +78,14 @@ class _SongPageState extends State<SongPage> {
                   itemCount: songs.length,
                   itemBuilder: (_, index) {
                     return Dismissible(
-                      background: Container(
-                        color: Colors.red,
-                      ),
                       key: UniqueKey(),
                       child: buildSongButton(songs[index], context),
                       onDismissed: (direction) async {
                         setState(() {
                           songs.removeAt(index);
                         });
-                        final list = songs.map((song) => jsonEncode(song)).toList();
+                        final list =
+                            songs.map((song) => jsonEncode(song)).toList();
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setStringList('songs', list);
                       },
@@ -143,7 +141,7 @@ Future<List<Song>> getSongs(List<Song> songs) async {
 
 Padding buildSongButton(Song song, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(7.0),
     child: GestureDetector(
       onTap: () {
         Navigator.push(
