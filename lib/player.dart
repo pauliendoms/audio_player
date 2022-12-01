@@ -58,7 +58,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
     if (result != null) {
       //final file = File(result.files.single.path!);
       // final path = '/data/user/0/com.example.audio_player/cache/file_picker/Nirvana - Smells Like Teen Spirit (Official Music Video)';
-      final path =  widget.song.url;
+      final path = widget.song.url;
       audioPlayer.setUrl(path, isLocal: true);
       //print(file.path);
     }
@@ -111,9 +111,10 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                 width: 300,
                 height: 300,
                 child: MyButtonStyleRound(
-                  child: Image(
-                    width: 50,
-                    image: AssetImage('assets/Ontwerp zonder titel.png'), // NOT WORKING HOW I WANT IT
+                  child: Icon(
+                    Icons.radio_button_checked,
+                    size: 75,
+                    color: TEXTCOLOR,
                   ),
                 ),
               ),
