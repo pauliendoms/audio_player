@@ -74,7 +74,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -89,16 +89,6 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                           Icons.arrow_back,
                           color: TEXTCOLOR,
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: MyButtonStyleRound(
-                      child: Icon(
-                        Icons.info_outline,
-                        color: TEXTCOLOR,
                       ),
                     ),
                   ),

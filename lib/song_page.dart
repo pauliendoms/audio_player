@@ -40,17 +40,55 @@ class _SongPageState extends State<SongPage> {
     }
   }
 
+  Future<void> _showInfo() async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            backgroundColor: DARKSHADOW,
+            title: Text(
+              'Tips',
+              style: TextStyle(
+                color: TEXTCOLOR,
+              ),
+            ),
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Text(
+                  "Add songs to the list by clicking the folder icon in the top left corner",
+                  style: TextStyle(
+                    color: TEXTCOLOR,
+                  ),
+                ),
+              ),
+              SimpleDialogOption(
+                child: Text(
+                  "Swipe on a song to remove it from the list",
+                  style: TextStyle(
+                    color: TEXTCOLOR,
+                  ),
+                ),
+              ),
+            ],
+          );
+        })) {
+      case null:
+        // dialog dismissed
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 31, 35, 53),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () async {
@@ -66,6 +104,19 @@ class _SongPageState extends State<SongPage> {
                       child: MyButtonStyleRound(
                         child: Icon(
                           Icons.folder,
+                          color: TEXTCOLOR,
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => _showInfo(),
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: MyButtonStyleRound(
+                        child: Icon(
+                          Icons.info_outline,
                           color: TEXTCOLOR,
                         ),
                       ),
