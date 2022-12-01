@@ -84,7 +84,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                     child: SizedBox(
                       width: 40,
                       height: 40,
-                      child: MyButtonStyle(
+                      child: MyButtonStyleRound(
                         child: Icon(
                           Icons.arrow_back,
                           color: TEXTCOLOR,
@@ -95,7 +95,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                   SizedBox(
                     width: 40,
                     height: 40,
-                    child: MyButtonStyle(
+                    child: MyButtonStyleRound(
                       child: Icon(
                         Icons.info_outline,
                         color: TEXTCOLOR,

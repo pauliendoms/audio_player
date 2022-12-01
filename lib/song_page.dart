@@ -63,7 +63,7 @@ class _SongPageState extends State<SongPage> {
                     child: SizedBox(
                       width: 40,
                       height: 40,
-                      child: MyButtonStyle(
+                      child: MyButtonStyleRound(
                         child: Icon(
                           Icons.folder,
                           color: TEXTCOLOR,
