@@ -16,12 +16,12 @@ class MyButtonStyle extends StatelessWidget {
               BoxShadow(
                 color: Color.fromARGB(255, 24, 28, 47),
                 offset: Offset(5, 5),
-                blurRadius: 15,
+                blurRadius: 10,
               ),
               BoxShadow(
                 color: Color.fromARGB(255, 44, 48, 69),
                 offset: Offset(-5, -5),
-                blurRadius: 15,
+                blurRadius: 10,
               ),
             ],
           ),
