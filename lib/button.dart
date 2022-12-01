@@ -10,7 +10,7 @@ class MyButtonStyle extends StatelessWidget {
           child: child,
           decoration: BoxDecoration(
             //shape: BoxShape.circle,
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(20),
             color: Color.fromARGB(255, 36, 40, 59),
             boxShadow: [
               BoxShadow(
