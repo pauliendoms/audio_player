@@ -115,18 +115,22 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                 height: 50,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Slider(
-                    min: 0,
-                    max: duration.inSeconds.toDouble(),
-                    value: position.inSeconds.toDouble(),
-                    thumbColor: TEXTCOLOR,
-                    activeColor: TEXTCOLOR,
-                    inactiveColor: LIGHTBLUE,
-                    onChanged: (value) async {
-                      final position = Duration(seconds: value.toInt());
-                      await audioPlayer.seek(position);
-                    },
+                  Container(
+                    width: 360,
+                    child: Slider(
+                      min: 0,
+                      max: duration.inSeconds.toDouble(),
+                      value: position.inSeconds.toDouble(),
+                      thumbColor: TEXTCOLOR,
+                      activeColor: TEXTCOLOR,
+                      inactiveColor: LIGHTBLUE,
+                      onChanged: (value) async {
+                        final position = Duration(seconds: value.toInt());
+                        await audioPlayer.seek(position);
+                      },
+                    ),
                   ),
                 ],
               ),
