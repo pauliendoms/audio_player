@@ -48,6 +48,12 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
         position = newPosition;
       });
     });
+
+    audioPlayer.onPlayerCompletion.listen((event) {
+      audioPlayer.stop();
+      Navigator.pop(context);
+      Song.NextSong.broadcast(widget.song);
+    });
   }
 
   Future setAudio() async {
