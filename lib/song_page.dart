@@ -25,11 +25,8 @@ class _SongPageState extends State<SongPage> {
     setSonglist();
 
     Song.NextSong.subscribe((s) => {
-      print("event heard"),
-      print(songs[songs.indexOf(s as Song)].title),
           if (songs.indexOf(s as Song) == (songs.length - 1))
             {
-              print("laatste song"),
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -40,12 +37,34 @@ class _SongPageState extends State<SongPage> {
             }
           else
             {
-              print("niet laatste song"),
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => AudioPlayerPage(
                       song: songs[songs.indexOf(s as Song) + 1],
+                    ),
+                  ))
+            }
+        });
+
+        Song.PreviousSong.subscribe((s) => {
+          if (songs.indexOf(s as Song) == 0)
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AudioPlayerPage(
+                          song: songs[songs.length - 1],
+                        )),
+              )
+            }
+          else
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AudioPlayerPage(
+                      song: songs[songs.indexOf(s as Song) - 1],
                     ),
                   ))
             }

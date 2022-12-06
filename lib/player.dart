@@ -136,13 +136,20 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: MyButtonStyleRound(
-                      child: Icon(
-                        Icons.skip_previous,
-                        color: TEXTCOLOR,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Song.PreviousSong.broadcast(widget.song);
+                      audioPlayer.stop();
+                    },
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: MyButtonStyleRound(
+                        child: Icon(
+                          Icons.skip_previous,
+                          color: TEXTCOLOR,
+                        ),
                       ),
                     ),
                   ),

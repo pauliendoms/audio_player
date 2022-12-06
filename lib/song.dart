@@ -7,6 +7,7 @@ class Song extends EventArgs {
   String url = "";
 
   static Event NextSong = Event<Song>();
+  static Event PreviousSong = Event<Song>();
 
   Song(String t, String a, String u) {
     this.title = t;
