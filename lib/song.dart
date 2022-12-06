@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:event/event.dart';
 
-class Song {
+class Song extends EventArgs {
   String title = "";
   String author = "";
   String url = "";
+
+  static Event NextSong = Event<Song>();
 
   Song(String t, String a, String u) {
     this.title = t;

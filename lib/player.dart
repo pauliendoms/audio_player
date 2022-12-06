@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'song.dart';
+import 'package:event/event.dart';
 
 class AudioPlayerPage extends StatefulWidget {
   final Song song;
@@ -27,6 +28,8 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
     super.initState();
 
     setAudio();
+
+    audioPlayer.resume();
 
     audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {
@@ -163,13 +166,20 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: MyButtonStyleRound(
-                      child: Icon(
-                        Icons.skip_next,
-                        color: TEXTCOLOR,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Song.NextSong.broadcast(widget.song);
+                      audioPlayer.stop();
+                    },
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: MyButtonStyleRound(
+                        child: Icon(
+                          Icons.skip_next,
+                          color: TEXTCOLOR,
+                        ),
                       ),
                     ),
                   ),
