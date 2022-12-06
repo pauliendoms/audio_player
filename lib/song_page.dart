@@ -23,6 +23,52 @@ class _SongPageState extends State<SongPage> {
     super.initState();
 
     setSonglist();
+
+    Song.NextSong.subscribe((s) => {
+          if (songs.indexOf(s as Song) == (songs.length - 1))
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AudioPlayerPage(
+                          song: songs[0],
+                        )),
+              )
+            }
+          else
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AudioPlayerPage(
+                      song: songs[songs.indexOf(s as Song) + 1],
+                    ),
+                  ))
+            }
+        });
+
+        Song.PreviousSong.subscribe((s) => {
+          if (songs.indexOf(s as Song) == 0)
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AudioPlayerPage(
+                          song: songs[songs.length - 1],
+                        )),
+              )
+            }
+          else
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AudioPlayerPage(
+                      song: songs[songs.indexOf(s as Song) - 1],
+                    ),
+                  ))
+            }
+        });
   }
 
   void setSonglist() async {
